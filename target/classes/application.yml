@@ -1,0 +1,13 @@
+server:  
+  port: 8080 
+logging:
+  level:
+    org.springframework.web: DEBUG
+    com.github.binarywang.demo.wechat: DEBUG
+
+wechat:
+  mp:
+    appId: wxc3ccb9c4722e3a35
+    secret: 168fd40de40ffb9c7a3972a0ca8873fc
+    token: albert1018
+    aesKey: PdFZZgxL2bf1eZem6hlZRyjAlfGt7AY5PLZV8lNyKST
