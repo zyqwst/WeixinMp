@@ -11,7 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author Binary Wang(https://github.com/binarywang)
+ * 
+* @ClassName: WechatController 
+* @Description: 
+* @author albert
+* @date 2018年1月30日 下午4:05:14 
+*
  */
 @RestController
 @RequestMapping("/wechat/portal")

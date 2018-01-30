@@ -1,5 +1,6 @@
 server:  
   port: 8080 
+spring.thymeleaf.cache: false
 logging:
   level:
     org.springframework.web: DEBUG
@@ -11,3 +12,4 @@ wechat:
     secret: 168fd40de40ffb9c7a3972a0ca8873fc
     token: albert1018
     aesKey: PdFZZgxL2bf1eZem6hlZRyjAlfGt7AY5PLZV8lNyKST
+   

@@ -17,9 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-/**
- * @author Binary Wang(https://github.com/binarywang)
- */
 @Controller
 public class WxErrorController implements ErrorController {
 
@@ -27,17 +24,9 @@ public class WxErrorController implements ErrorController {
       .getLogger(WxErrorController.class);
   private final static String ERROR_PATH = "/error";
   private static WxErrorController appErrorController;
-  /**
-   * Error Attributes in the Application
-   */
   @Autowired
   private ErrorAttributes errorAttributes;
 
-  /**
-   * Controller for the Error Controller
-   *
-   * @param errorAttributes
-   */
 
   public WxErrorController(ErrorAttributes errorAttributes) {
     this.errorAttributes = errorAttributes;
@@ -80,7 +69,6 @@ public class WxErrorController implements ErrorController {
     return ERROR_PATH;
   }
 
-  @SuppressWarnings("static-method")
   private boolean getTraceParameter(HttpServletRequest request) {
     String parameter = request.getParameter("trace");
     if (parameter == null) {
@@ -104,7 +92,6 @@ public class WxErrorController implements ErrorController {
     return map;
   }
 
-  @SuppressWarnings("static-method")
   private HttpStatus getStatus(HttpServletRequest request) {
     Integer statusCode = (Integer) request
         .getAttribute("javax.servlet.error.status_code");
