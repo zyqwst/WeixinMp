@@ -8,8 +8,8 @@ logging:
 
 wechat:
   mp:
-    appId: wxc3ccb9c4722e3a35
-    secret: 168fd40de40ffb9c7a3972a0ca8873fc
+    appId: wxd3f024b0786b9a46
+    secret: 7d5b94a14382453f9b8bd8e4c1256468
     token: albert1018
     aesKey: PdFZZgxL2bf1eZem6hlZRyjAlfGt7AY5PLZV8lNyKST
    

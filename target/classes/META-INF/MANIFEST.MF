@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: spring-boot-demo-for-wechat-mp
 Implementation-Version: 1.0.0-SNAPSHOT
-Built-By: albert
+Built-By: Administrator
 Implementation-Vendor-Id: com.github.binarywang
 Build-Jdk: 1.8.0_121
 Implementation-URL: http://projects.spring.io/spring-boot/weixin-java-
