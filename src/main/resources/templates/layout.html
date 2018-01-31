@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/htmlhead"></div>
+
+<body class="layout-fixed">
+  	<!--Main Navigation-->
+    <header>
+	    <div th:replace="fragments/header :: header">Header</div>
+	    <div th:replace="fragments/sidebar :: sidebar">sidebar</div>
+    </header>
+    <!--Main Navigation-->
+    
+    <div layout:fragment="content" id="content">正文</div>
+    <div th:replace="fragments/footer :: footer">footer</div>
+    <div layout:fragment="customiz_script" id="customiz_script">自定义script</div>
+</body>
+</html>

@@ -1,6 +1,11 @@
 server:  
   port: 8080 
+  
 spring.thymeleaf.cache: false
+spring.thymeleaf.mode: LEGACYHTML5
+spring.thymeleaf.encoding: UTF-8
+spring.thymeleaf.content-type: text/html
+
 logging:
   level:
     org.springframework.web: DEBUG
