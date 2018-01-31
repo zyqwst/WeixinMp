@@ -32,20 +32,22 @@ public class WxAdminController {
 	private WxMpService wxMpService;
 	/**获取所有模板消息*/
 	@RequestMapping("/getAllPrivateTemplate")
-	public void getAllPrivateTemplate() {
+	public String getAllPrivateTemplate() {
 		try {
 			List<WxMpTemplate>  list = wxMpService.getTemplateMsgService().getAllPrivateTemplate();
 			for(WxMpTemplate w : list) {
 				System.out.println(w);
 			}
+			return "success";
 		} catch (WxErrorException e) {
 			e.printStackTrace();
+			return "failed";
 		}
 	}
 	/** 发送模板消息
 	 * @throws WxErrorException */
 	@RequestMapping("/send")
-	public void templateSend() throws WxErrorException {
+	public String templateSend() throws WxErrorException {
 		WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
 				.toUser("osdrCw_8haFPBh4Ixn8UdY72rgno")
 				.templateId("AxIYSwNcuArzsI4OXj_MBRMWL6yCBjtaVo4jrZKz91M")
@@ -54,5 +56,15 @@ public class WxAdminController {
 		templateMessage.getData().add(new WxMpTemplateData("name", "张亚强", "#0000ff"));
 		templateMessage.getData().add(new WxMpTemplateData("credate", DateUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss", Locale.getDefault()), "#0000ff"));
 		wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+		return "success";
+	}
+	/**
+	 * @throws WxErrorException 
+	 * 给用户添加备注
+	 */
+	@RequestMapping("/updatemark")
+	public String updateMark() throws WxErrorException {
+		wxMpService.getUserService().userUpdateRemark("osdrCw_8haFPBh4Ixn8UdY72rgno", "测试albert");
+		return "success";
 	}
 }
