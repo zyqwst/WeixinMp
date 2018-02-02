@@ -165,7 +165,7 @@ import com.albert.wechat.exceptions.WeixinMpException;
 	  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	  @ExceptionHandler(WeixinMpException.class)
 	  public RestEntity handleException(WeixinMpException e) {
-	    logger.error("其他异常:", e);
+	    logger.error("显示异常:", e);
 	    return RestEntity.failed(e.getMessage());
 	  }
  }

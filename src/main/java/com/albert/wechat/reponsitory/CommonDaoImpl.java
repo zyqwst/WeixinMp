@@ -204,5 +204,7 @@ public  class  CommonDaoImpl  implements CommonDao{
 		}
 		return new PageImpl<>(contents, pageable, contents.size());
 	}
-
+	public <T extends EntityBase> void detach(T t) throws DaoException {
+		em.detach(t);
+	}
 }

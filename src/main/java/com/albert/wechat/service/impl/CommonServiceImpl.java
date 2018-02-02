@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.albert.wechat.domain.EntityBase;
+import com.albert.wechat.exceptions.DaoException;
 import com.albert.wechat.exceptions.ServiceException;
 import com.albert.wechat.reponsitory.CommonDao;
 import com.albert.wechat.service.CommonService;
@@ -94,5 +95,7 @@ public class CommonServiceImpl implements CommonService{
 	public <T extends EntityBase> long countBySql(String sql, List<Object> params) throws ServiceException {
 		return commonDao.countBySql(sql, params);
 	}
-
+	public <T extends EntityBase> void detach(T t) throws DaoException{
+		commonDao.detach(t);
+	}
 }

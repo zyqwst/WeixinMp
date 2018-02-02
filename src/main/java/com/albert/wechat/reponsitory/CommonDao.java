@@ -24,6 +24,8 @@ public interface  CommonDao{
 	
 	public void flush();
 	
+	public <T extends EntityBase> void detach(T t) throws DaoException;
+	
 	public <T extends EntityBase> void update(Class<T> clazz,String hql,List<Object> params) throws DaoException;
 	
 	public <T extends EntityBase> long count(Class<T> clazz,String hql,  List<Object> params) throws DaoException;

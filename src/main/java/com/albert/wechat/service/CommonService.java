@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.albert.wechat.domain.EntityBase;
+import com.albert.wechat.exceptions.DaoException;
 import com.albert.wechat.exceptions.ServiceException;
 
 public interface CommonService {
@@ -33,5 +34,5 @@ public interface CommonService {
 	public <T extends EntityBase> T findEntityBySql(Class<T> clazz,String sql,List<Object> params) throws ServiceException;
 	
 	public <T extends EntityBase> Page<T> findPageBySql(Class<T> clazz,String sql,List<Object> params,Pageable pageable) throws ServiceException;
-	
+	public <T extends EntityBase> void detach(T t) throws DaoException;
 }
