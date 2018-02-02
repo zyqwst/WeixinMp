@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.albert.wechat.domain.RestEntity;
+import com.albert.wechat.exceptions.UnAuthorizedException;
 import com.albert.wechat.exceptions.WeixinMpException;
 
 @ControllerAdvice
@@ -161,7 +162,12 @@ import com.albert.wechat.exceptions.WeixinMpException;
 	    logger.error("业务层异常:", e);
 	    return RestEntity.failed("(业务层异常)"+e.getMessage());
 	  }
-	  
+	  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+	  @ExceptionHandler(UnAuthorizedException.class)
+	  public RestEntity handleServiceException(UnAuthorizedException e) {
+	    logger.error("资源未授权异常:", e);
+	    return RestEntity.failed("(资源未授权)"+e.getMessage());
+	  }
 	  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	  @ExceptionHandler(WeixinMpException.class)
 	  public RestEntity handleException(WeixinMpException e) {

@@ -4,7 +4,6 @@ $(function(){
         var act = $("#orangeForm-name");
         var pd  = $("#orangeForm-pass");
         var timestamp = new Date().getTime();
-        console.log(act.val()+hex_md5(pd.val()).toUpperCase()+timestamp);
         var login = hex_sha1(act.val()+hex_md5(pd.val()).toUpperCase()+timestamp);
         axios.post('/admin/login', {
             uname: act.val(),
@@ -12,10 +11,19 @@ $(function(){
             timestamp: timestamp
           })
           .then(function (response) {
-             window.location="/admin/index";
+            if(response.headers.hasOwnProperty('alberttoken')){
+                var x = response.headers.alberttoken;
+                
+                document.cookie='alberttoken='+x;
+                window.location= "/admin";
+            }else{
+                toastr.error(error.response.data.msg||"登录错误", "登录失败了", {
+                    "positionClass": "toast-top-right",
+                });
+            }
           })
           .catch(function (error) {
-            console.log(error.response);
+            console.log(error);
             toastr.error(error.response.data.msg||"登录错误", "登录失败", {
                 "positionClass": "toast-top-right",
             });

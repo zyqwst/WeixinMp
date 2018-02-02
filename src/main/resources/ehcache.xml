@@ -1,0 +1,14 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+         xsi:noNamespaceSchemaLocation="ehcache.xsd">  
+    <!-- 管理员 -->
+    <cache name="admin_cache"  
+           maxElementsInMemory="20000"  
+           timeToIdleSeconds="30"
+           eternal="true">  
+    </cache> 
+    <cache name="app_cache"  
+           maxElementsInMemory="20000"  
+           timeToLiveSeconds="600"
+           eternal="true">  
+    </cache>  
+</ehcache>  
