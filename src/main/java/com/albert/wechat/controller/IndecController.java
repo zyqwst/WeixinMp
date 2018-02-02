@@ -4,7 +4,8 @@
 package com.albert.wechat.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /** 
 * @ClassName: IndecController 
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 */
 @Controller
 public class IndecController {
-	@RequestMapping(value= {"","admin"})
+	@GetMapping(value= {""})
+	@ResponseBody
 	public String index() {
-		return "index";
+		return "启动成功";
 	}
 }
