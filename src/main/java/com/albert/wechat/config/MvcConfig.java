@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.albert.wechat.AuthorizationInterceptor;
+import com.albert.wechat.interceptor.AuthorizationInterceptor;
 
 
 @Configuration
@@ -22,7 +22,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         
         addInterceptor.excludePathPatterns("/error")
         				  .excludePathPatterns("/admin/login**")
+        				  .excludePathPatterns("/wechat/**")
         				  .addPathPatterns("/**");
     }
-
 }

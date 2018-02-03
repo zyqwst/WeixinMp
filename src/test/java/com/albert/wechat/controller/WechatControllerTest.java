@@ -16,14 +16,14 @@ import com.albert.WxMpDemoApplicationTest;
 */
 public class WechatControllerTest extends WxMpDemoApplicationTest{
 
-    @Autowired
-    private MockMvc mvc;
-
-    @Test
-    public void girlList() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/wechat/portal"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().string("abc"));
-    }
+//    @Autowired
+//    private MockMvc mvc;
+//
+//    @Test
+//    public void girlList() throws Exception {
+//        mvc.perform(MockMvcRequestBuilders.get("/wechat/portal"))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//        .andExpect(MockMvcResultMatchers.content().string("abc"));
+//    }
 
 }

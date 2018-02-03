@@ -16,5 +16,5 @@ public class CommonUtils {
 	
 	public final static String APP_CACHE="app_cache";
 
-	public final static String ALBERT_X_HEADER = "alberttoken";
+	public final static String ALBERT_X_HEADER = "access_token";
 }

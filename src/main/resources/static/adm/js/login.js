@@ -11,10 +11,10 @@ $(function(){
             timestamp: timestamp
           })
           .then(function (response) {
-            if(response.headers.hasOwnProperty('alberttoken')){
-                var x = response.headers.alberttoken;
+            if(response.headers.hasOwnProperty('access_token')){
+                var x = response.headers.access_token;
                 
-                document.cookie='alberttoken='+x;
+                document.cookie='access_token='+x;
                 window.location= "/admin";
             }else{
                 toastr.error(error.response.data.msg||"登录错误", "登录失败了", {

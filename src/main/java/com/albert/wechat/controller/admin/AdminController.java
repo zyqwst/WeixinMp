@@ -3,11 +3,7 @@
  */
 package com.albert.wechat.controller.admin;
 
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.albert.wechat.cache.CacheReponsitory;
+import com.albert.wechat.config.WeixinAdminProperties;
 import com.albert.wechat.domain.Employee;
 import com.albert.wechat.domain.LoginEntity;
 import com.albert.wechat.domain.RestEntity;
 import com.albert.wechat.exceptions.WeixinMpException;
 import com.albert.wechat.service.CommonService;
 import com.albert.wechat.utils.CommonUtils;
+import com.albert.wechat.utils.JwtUtil;
 import com.albert.wechat.utils.Value;
 
 import me.chanjar.weixin.common.util.crypto.SHA1;
@@ -49,6 +47,9 @@ public class AdminController {
 	CacheReponsitory cache;
 	@Resource
 	HttpServletRequest request;
+	
+	@Resource
+	WeixinAdminProperties properties;
 	
 	@Resource
 	private HttpServletResponse response;
@@ -76,23 +77,16 @@ public class AdminController {
 		commonService.detach(list.get(0));
 		list.get(0).setPassword(null);
 		loginEntity.setEmp(list.get(0));
-		String uuid = UUID.randomUUID().toString();
-		cache.getCache(CommonUtils.ADMIN_CACHE).put(uuid, list.get(0));
-		response.addHeader(CommonUtils.ALBERT_X_HEADER, uuid);
+		String token = JwtUtil.createJWT(System.currentTimeMillis()+"", "com.albert", list.get(0).getName(),
+				-1, properties.getSecretKey());
+		cache.getCache(CommonUtils.ADMIN_CACHE).put(token, list.get(0));
+		response.addHeader(CommonUtils.ALBERT_X_HEADER, token);
 		return RestEntity.success("login success");
 	}
 	@GetMapping("login")
 	public String login() {
-		
 		return "login";
 	}
-	@GetMapping("header")
-	public void test() {
-		Enumeration headerNames = request.getHeaderNames();
-	    while (headerNames.hasMoreElements()) {
-	        String key = (String) headerNames.nextElement();
-	        String value = request.getHeader(key);
-	        System.out.println(key+":"+value);
-	    }
-	}
+	
+	
 }
