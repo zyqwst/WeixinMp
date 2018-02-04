@@ -12,6 +12,8 @@ package com.albert;
 */
 public class Test {
 	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+		String s = "select * from t where name= ? ";
+		System.out.println("select count(1) "+s.substring(s.indexOf("from")));
 	}
 	    
 

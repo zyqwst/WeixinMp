@@ -311,8 +311,9 @@
         	    .then(function (response) {
         	  	  	console.log(response.data.object.content);
         	  	  	if(response.data.status==1 && response.data.object.content.length>0){
+        	  	  		var arr = response.data.object.content;
         	  	  		item.mdb_autocomplete({
-	        	  	            data: response.data.object.content
+	        	  	            data: arr
 	        	  	    });
         	  	  	}else if(response.data.status==-1){
         	          toastr.error(response.data.msg||"初始化错误");

@@ -110,7 +110,8 @@ public  class  CommonDaoImpl  implements CommonDao{
 				}
 			}
 		}
-        return Long.parseLong(query.getSingleResult().toString());
+        Object o = query.getSingleResult();
+        return Long.parseLong(o.toString());
     }
 	@Override
 	public <T extends EntityBase> Double getSum(Class<T> clazz,String field,String hql, List<Object> params) throws DaoException {
@@ -175,7 +176,7 @@ public  class  CommonDaoImpl  implements CommonDao{
 				return new PageImpl<T>(contents, pageable, contents.size());
 			}
 
-			return new PageImpl<T>(contents, pageable,countBySql(sql, params));
+			return new PageImpl<T>(contents, pageable,countBySql("select count(1) "+sql.substring(sql.toUpperCase().indexOf("FROM")), params));
 		}
 
 		if (contents.size() != 0 && pageable.getPageSize() > contents.size()) {
