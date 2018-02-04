@@ -86,7 +86,15 @@
                         <div class="col-lg-3 col-md-6">
 
                             <form class="form-inline mt-2 ml-2">
-                                <input class="form-control my-0 py-0" type="text" placeholder="Search" style="max-width: 150px;">
+                               
+                               	<div class="md-form">
+								    <input type="search" id="form-autocomplete" class="form-control mdb-autocomplete mt-2 py-0">
+								    <button class="mdb-autocomplete-clear fa fa-close">
+								        
+								    </button>
+								</div>
+                               	
+                               	
                                 <button class="btn btn-sm btn-info ml-2 px-2">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -279,19 +287,45 @@
    <th:block  layout:fragment="customiz_script">
     <!-- Initializations -->
     <script>
-        // SideNav Initialization
-        $(".button-collapse").sideNav();
-
-        // Material Select Initialization
-       $('.mdb-select').material_select();
-
-        // Data Picker Initialization
-        $('.datepicker').pickadate();
-
-        // Tooltip Initialization
-        $('[data-toggle="tooltip"]').tooltip()
+    		$(function(){
+	        // SideNav Initialization
+	        $(".button-collapse").sideNav();
+	
+	        // Material Select Initialization
+	       $('.mdb-select').material_select();
+	
+	        // Data Picker Initialization
+	        $('.datepicker').pickadate();
+	
+	        // Tooltip Initialization
+	        $('[data-toggle="tooltip"]').tooltip();
+    			
+		    $('#form-autocomplete').keydown(_.debounce(
+		    	 show
+			 ,500));
+    		})
+    		function show(){
+    			console.log($('#form-autocomplete').val());
+    			axios.post('/admin/user/memberAuto', {
+        	        name: $('#form-autocomplete').val()
+        	    })
+        	    .then(function (response) {
+        	  	  		console.log(response.data);
+        	  	  	if(response.data.status==1){
+        	  	  		if(response.data.object.content.length>0)
+	        	  	  		$('#form-autocomplete').mdb_autocomplete({
+	        	  	            data: response.data.object.content
+	        	  	        });
+        	  	  	}else{
+        	          toastr.error(response.data.msg||"初始化错误");
+        	      }
+        	    })
+        	    .catch(function (error) {
+        	      toastr.error(error.response.data.msg||"初始化错误");
+        	    })
+    		}
     </script>
-
+	
    
     </th:block>
 </body>
