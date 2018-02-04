@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -43,20 +44,10 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         		}
         		if(map.get(CommonUtils.ALBERT_X_HEADER)==null) throw new UnAuthorizedException("无访问权限");
         		JwtUtil.parseJWT(map.get(CommonUtils.ALBERT_X_HEADER), props.getSecretKey());
-        		if(cache.get(CommonUtils.ADMIN_CACHE, map.get(CommonUtils.ALBERT_X_HEADER))==null) throw new UnAuthorizedException("权限过期");
+        		ValueWrapper obj = cache.get(CommonUtils.ADMIN_CACHE, map.get(CommonUtils.ALBERT_X_HEADER));
+        		if(obj==null) throw new UnAuthorizedException("权限过期");
+        		request.setAttribute("employee", obj.get());
         }
-//        else {
-//        		String authorization = request.getHeader(CommonUtils.ALBERT_X_HEADER);
-//	        if(StringUtils.isBlank(authorization)) throw new UnAuthorizedException("无访问权限");
-//	        if(cache.get(CommonUtils.ADMIN_CACHE, authorization)==null) throw new UnAuthorizedException("权限过期");
-//    		}	
         return true;
-    }
-    
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-    		throws Exception {
-    	super.afterCompletion(request, response, handler, ex);
-    	System.out.println("=================afterCompletion:"+response.getStatus());
     }
 }

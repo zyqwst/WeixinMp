@@ -22,7 +22,7 @@ wechat:
     secret-key: 3j3J
    
 spring.datasource: 
-  url: jdbc:mysql://122.112.197.187:23306/confinement
+  url: jdbc:mysql://122.112.197.187:23306/confinement_wechat
   username: root
   password: syadmin2589
   type: com.alibaba.druid.pool.DruidDataSource

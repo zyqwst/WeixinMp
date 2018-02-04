@@ -3,28 +3,27 @@
  */
 package com.albert.wechat.controller.admin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.albert.wechat.cache.CacheReponsitory;
-import com.albert.wechat.config.WeixinAdminProperties;
 import com.albert.wechat.domain.Employee;
 import com.albert.wechat.domain.LoginEntity;
 import com.albert.wechat.domain.RestEntity;
 import com.albert.wechat.exceptions.WeixinMpException;
-import com.albert.wechat.service.CommonService;
 import com.albert.wechat.utils.CommonUtils;
 import com.albert.wechat.utils.JwtUtil;
 import com.albert.wechat.utils.Value;
@@ -40,19 +39,7 @@ import me.chanjar.weixin.common.util.crypto.SHA1;
 */
 @Controller
 @RequestMapping("admin")
-public class AdminController {
-	@Resource
-	CommonService commonService;
-	@Resource
-	CacheReponsitory cache;
-	@Resource
-	HttpServletRequest request;
-	
-	@Resource
-	WeixinAdminProperties properties;
-	
-	@Resource
-	private HttpServletResponse response;
+public class AdminController extends AdminBaseController{
 	@GetMapping(value= {"","index"})
 	public String index() {
 		return "index";
@@ -85,8 +72,29 @@ public class AdminController {
 	}
 	@GetMapping("login")
 	public String login() {
+		Map<String,String> map = new HashMap<>();
+		if(request.getCookies()==null) {
+			return "login";
+		}
+		for(Cookie c : request.getCookies()) {
+			map.put(c.getName(), c.getValue());
+		}
+		if(map.get(CommonUtils.ALBERT_X_HEADER)==null) return "login";
+		try {
+			JwtUtil.parseJWT(map.get(CommonUtils.ALBERT_X_HEADER), properties.getSecretKey());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "login";
+		}
+		ValueWrapper obj = cache.get(CommonUtils.ADMIN_CACHE, map.get(CommonUtils.ALBERT_X_HEADER));
+		if(obj==null) return "login";
+		request.setAttribute("employee", obj.get());
+		return "redirect:/admin";
+	}
+	@GetMapping("logout")
+	public String logout(@CookieValue String access_token) {
+		evictCacheVal(access_token);
 		return "login";
 	}
-	
 	
 }

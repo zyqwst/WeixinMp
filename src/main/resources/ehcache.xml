@@ -3,7 +3,7 @@
     <!-- 管理员 -->
     <cache name="admin_cache"  
            maxElementsInMemory="20000"  
-           timeToIdleSeconds="30"
+           timeToIdleSeconds="30000"
            eternal="false">  
     </cache> 
     <cache name="app_cache"  

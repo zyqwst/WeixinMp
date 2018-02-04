@@ -10,7 +10,7 @@
 
             <!-- Breadcrumb-->
             <div class="breadcrumb-dn mr-auto">
-                <p>Material Design for Bootstrap</p>
+                <p>双翼信息-微信公众平台</p>
             </div>
 
             <!-- Links -->
@@ -30,12 +30,11 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-user"></i>
-                        <span class="clearfix d-none d-sm-inline-block">Account</span>
+                        <span class="clearfix d-none d-sm-inline-block" th:text="${employee.name}">Account</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="#" >修改密码</a>
+                        <a class="dropdown-item" href="#">退出</a>
                     </div>
                 </li>
             </ul>
