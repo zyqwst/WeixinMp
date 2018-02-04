@@ -192,10 +192,10 @@ import com.albert.wechat.utils.JsonUtils;
 	  private Object responseCustomized(HttpStatus httpStatus,String msg) {
 		  try {
 			 
-			  Enumeration enu=request.getHeaderNames();//取得全部头信息
-		       while(enu.hasMoreElements()){//以此取出头信息
+			  Enumeration enu=request.getHeaderNames();
+		       while(enu.hasMoreElements()){
 		           String headerName=(String)enu.nextElement();
-		           String headerValue=request.getHeader(headerName);//取出头信息内容
+		           String headerValue=request.getHeader(headerName);
 		           System.out.println(headerName+"<===>"+headerValue);
 		       }
 			String contentType = request.getHeader("content-type");
