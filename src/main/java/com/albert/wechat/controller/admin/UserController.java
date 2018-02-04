@@ -44,7 +44,7 @@ public class UserController extends AdminBaseController{
 	@ResponseBody
 	public RestEntity memberAuto(@RequestBody Member member) {
 		if(StringUtils.isBlank("member.getName()")) throw new ServiceException("参数为空");
-		Pageable pageable = new PageRequest(0, 100, new Sort(Sort.Direction.ASC, "name"));
+		Pageable pageable = new PageRequest(0, 10, new Sort(Sort.Direction.ASC, "name"));
 		Page<String> page = commonService.findPageBySql(String.class, "select name from t_member where name like ? ", new Value().add("%"+member.getName()+"%").getParams(), pageable);
 		System.out.println(page.getContent().size());
 		return RestEntity.success(page);

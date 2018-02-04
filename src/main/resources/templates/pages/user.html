@@ -300,28 +300,27 @@
 	        // Tooltip Initialization
 	        $('[data-toggle="tooltip"]').tooltip();
     			
-		    $('#form-autocomplete').keydown(_.debounce(
-		    	 show
-			 ,500));
+		    $('#form-autocomplete').keydown(_.debounce(show,800));
     		})
     		function show(){
-    			if($('#form-autocomplete').val()=='') return;
+    			var item = $('#form-autocomplete');
+    			if(item.val()=='') return;
     			axios.post('/admin/user/memberAuto', {
-        	        name: $('#form-autocomplete').val()
+        	        name: item.val()
         	    })
         	    .then(function (response) {
-        	  	  		console.log(response.data);
-        	  	  	if(response.data.status==1){
-        	  	  		if(response.data.object.content.length>0)
-	        	  	  		$('#form-autocomplete').mdb_autocomplete({
+        	  	  	console.log(response.data.object.content);
+        	  	  	if(response.data.status==1 && response.data.object.content.length>0){
+        	  	  		item.mdb_autocomplete({
 	        	  	            data: response.data.object.content
-	        	  	        });
-        	  	  	}else{
+	        	  	    });
+        	  	  	}else if(response.data.status==-1){
         	          toastr.error(response.data.msg||"初始化错误");
         	      }
         	    })
         	    .catch(function (error) {
-        	      toastr.error(error.response.data.msg||"初始化错误");
+        	    	console.log(error);
+        	     // toastr.error(error.response.data.msg||"初始化错误");
         	    })
     		}
     </script>
