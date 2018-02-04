@@ -305,7 +305,7 @@
 			 ,500));
     		})
     		function show(){
-    			console.log($('#form-autocomplete').val());
+    			if($('#form-autocomplete').val()=='') return;
     			axios.post('/admin/user/memberAuto', {
         	        name: $('#form-autocomplete').val()
         	    })

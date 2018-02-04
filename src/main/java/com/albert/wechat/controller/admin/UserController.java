@@ -3,8 +3,7 @@
  */
 package com.albert.wechat.controller.admin;
 
-import java.util.List;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.albert.wechat.domain.Member;
 import com.albert.wechat.domain.RestEntity;
+import com.albert.wechat.exceptions.ServiceException;
 import com.albert.wechat.utils.Value;
 
 /** 
@@ -42,13 +42,11 @@ public class UserController extends AdminBaseController{
 	}
 	@PostMapping("memberAuto")
 	@ResponseBody
-	public RestEntity memberAuto(@RequestBody String name) {
-		System.out.println(name);
+	public RestEntity memberAuto(@RequestBody Member member) {
+		if(StringUtils.isBlank("member.getName()")) throw new ServiceException("参数为空");
 		Pageable pageable = new PageRequest(0, 100, new Sort(Sort.Direction.ASC, "name"));
-		Page<Member> page = commonService.findPage(Member.class, " where name like ? ", new Value().add("%"+name+"%").getParams(), pageable);
-		List<Member> alls = commonService.findAll(Member.class, " where name like ? ", new Value().add("%"+name+"%").getParams());
+		Page<String> page = commonService.findPageBySql(String.class, "select name from t_member where name like ? ", new Value().add("%"+member.getName()+"%").getParams(), pageable);
 		System.out.println(page.getContent().size());
-		System.out.println(alls.size());
 		return RestEntity.success(page);
 	}
 }
