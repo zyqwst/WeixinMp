@@ -94,7 +94,7 @@ public class AdminController extends AdminBaseController{
 	@GetMapping("logout")
 	public String logout(@CookieValue String access_token) {
 		evictCacheVal(access_token);
-		return "login";
+		return "redirect:/admin/login";
 	}
 	
 }

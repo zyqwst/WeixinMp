@@ -21,7 +21,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     	InterceptorRegistration addInterceptor = registry.addInterceptor(authorizationInterceptor);
         
         addInterceptor.excludePathPatterns("/error")
-        				  .excludePathPatterns("/admin/login**")
+        				  .excludePathPatterns("/admin/login*")
+        				  .excludePathPatterns("/admin/logout*")
         				  .excludePathPatterns("/wechat/**")
         				  .addPathPatterns("/**");
     }
