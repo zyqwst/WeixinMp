@@ -2,6 +2,7 @@ package com.albert.wechat.config;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -190,14 +191,23 @@ import com.albert.wechat.utils.JsonUtils;
 	   */
 	  private Object responseCustomized(HttpStatus httpStatus,String msg) {
 		  try {
-			String uri = request.getRequestURI();
-			  if(uri.startsWith("/admin")) {
+			 
+			  Enumeration enu=request.getHeaderNames();//取得全部头信息
+		       while(enu.hasMoreElements()){//以此取出头信息
+		           String headerName=(String)enu.nextElement();
+		           String headerValue=request.getHeader(headerName);//取出头信息内容
+		           System.out.println(headerName+"<===>"+headerValue);
+		       }
+			String contentType = request.getHeader("content-type");
+			if(contentType==null) contentType = request.getHeader("accept");
+			System.out.println("contenttype:"+contentType);
+			  if(!contentType.contains("application/json")) {
 				  ModelAndView mv = new ModelAndView();
 				  mv.addObject("error_msg", msg);
 				  mv.addObject("error_code", httpStatus);
 				  mv.setViewName("/error/error");
 				  return mv;
-			  }else {
+			  }else{
 				  response.setStatus(httpStatus.value());
 				  response.setContentType("application/json;charset=utf-8");
 				  PrintWriter writer = response.getWriter();

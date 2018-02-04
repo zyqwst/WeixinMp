@@ -1,35 +1,40 @@
 $(function(){
-    var login = $("[data-login='admin-login']");
-    login.click(function(){
-        var act = $("#orangeForm-name");
-        var pd  = $("#orangeForm-pass");
-        var timestamp = new Date().getTime();
-        var login = hex_sha1(act.val()+hex_md5(pd.val()).toUpperCase()+timestamp);
-        axios.post('/admin/login', {
-            uname: act.val(),
-            upwd: login,
-            timestamp: timestamp
-          })
-          .then(function (response) {
-            if(response.headers.hasOwnProperty('access_token')){
-                var x = response.headers.access_token;
-                
-                document.cookie='access_token='+x;
-                window.location= "/admin";
-            }else{
-                toastr.error(error.response.data.msg||"登录错误", "登录失败了", {
-                    "positionClass": "toast-top-right",
-                });
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-            toastr.error(error.response.data.msg||"登录错误", "登录失败", {
+    var loginBtn = $("[data-login='admin-login']");
+    loginBtn.click(_.throttle(login, 2000, { 'trailing': false }));
+})
+
+function login(){
+    var btn = $("[data-login='admin-login']");
+    btn.addClass('disabled');
+    var act = $("#orangeForm-name");
+    var pd  = $("#orangeForm-pass");
+    var timestamp = new Date().getTime();
+    var login = hex_sha1(act.val()+hex_md5(pd.val()).toUpperCase()+timestamp);
+    axios.post('/admin/login', {
+        uname: act.val(),
+        upwd: login,
+        timestamp: timestamp
+      })
+      .then(function (response) {
+        btn.removeClass('disabled');
+        if(response.headers.hasOwnProperty('access_token')){
+            var x = response.headers.access_token;
+            document.cookie='access_token='+x;
+            window.location= "/admin";
+        }else{
+            toastr.error(error.response.data.msg||"登录错误", "登录失败了", {
                 "positionClass": "toast-top-right",
             });
-          });
-    });
-})
+        }
+      })
+      .catch(function (error) {
+        btn.removeClass('disabled');
+        toastr.error(error.response.data.msg||"登录错误", "登录失败", {
+            "positionClass": "toast-top-right",
+        });
+      });
+}
+
 var hexcase = 0; /* hex output format. 0 - lowercase; 1 - uppercase  */
 var b64pad = ""; /* base-64 pad character. "=" for strict RFC compliance */
 var chrsz = 8; /* bits per input character. 8 - ASCII; 16 - Unicode  */
