@@ -97,7 +97,7 @@ public  class  CommonDaoImpl  implements CommonDao{
 				}
 			}
 		}
-        return (Long) query.getSingleResult();
+        return Long.parseLong(query.getSingleResult().toString()) ;
     }
 	@Override
 	public <T extends EntityBase> long countBySql(String sql,  List<Object> params) throws DaoException {
@@ -110,7 +110,7 @@ public  class  CommonDaoImpl  implements CommonDao{
 				}
 			}
 		}
-        return (Long) query.getSingleResult();
+        return Long.parseLong(query.getSingleResult().toString());
     }
 	@Override
 	public <T extends EntityBase> Double getSum(Class<T> clazz,String field,String hql, List<Object> params) throws DaoException {
@@ -122,10 +122,15 @@ public  class  CommonDaoImpl  implements CommonDao{
 		}
 		return  (Double) query.getSingleResult();         
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "null" })
 	@Override
-	public <T extends EntityBase> List<T> findAllBySql(Class<T> clazz,String sql,List<Object> params) throws DaoException{
-		Query query = em.createNativeQuery(sql, clazz);
+	public <T extends Object> List<T> findAllBySql(Class<T> clazz,String sql,List<Object> params) throws DaoException{
+		Query query = null;
+		if(isJavaClass(clazz)) {
+			query = em.createNativeQuery(sql);
+		}else {
+			query = em.createNativeQuery(sql, clazz);
+		}
 		if(params!=null && params.size()>0){
 			for(int i = 1;i<=params.size();i++){
 				query.setParameter(i, params.get(i-1));
@@ -138,16 +143,21 @@ public  class  CommonDaoImpl  implements CommonDao{
 	}
 
 	@Override
-	public <T extends EntityBase> T findEntityBySql(Class<T> clazz, String sql, List<Object> params)
+	public <T extends Object> T findEntityBySql(Class<T> clazz, String sql, List<Object> params)
 			throws DaoException {
 		return findAllBySql(clazz, sql, params).get(0);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends EntityBase> Page<T> findPageBySql(Class<T> clazz, String sql, List<Object> params,
+	public <T extends Object> Page<T> findPageBySql(Class<T> clazz, String sql, List<Object> params,
 			Pageable pageable) throws DaoException {
-		Query query = em.createNativeQuery(sql, clazz);
+		Query query = null;
+		if(isJavaClass(clazz)) {
+			query = em.createNativeQuery(sql);
+		}else {
+			query = em.createNativeQuery(sql, clazz);
+		}
 		query.setFirstResult(pageable.getOffset());
 		query.setMaxResults(pageable.getPageSize());
 		if(params!=null && params.size()>0){
@@ -206,5 +216,8 @@ public  class  CommonDaoImpl  implements CommonDao{
 	}
 	public <T extends EntityBase> void detach(T t) throws DaoException {
 		em.detach(t);
+	}
+	private  boolean isJavaClass(Class<?> clz) {    
+	    return clz != null && clz.getClassLoader() == null;    
 	}
 }

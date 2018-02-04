@@ -70,18 +70,18 @@ public class CommonServiceImpl implements CommonService{
 	}
 
 	@Override
-	public <T extends EntityBase> List<T> findAllBySql(Class<T> clazz, String sql,List<Object> params) throws ServiceException {
+	public <T extends Object> List<T> findAllBySql(Class<T> clazz, String sql,List<Object> params) throws ServiceException {
 		return commonDao.findAllBySql(clazz, sql,params);
 	}
 
 	@Override
-	public <T extends EntityBase> T findEntityBySql(Class<T> clazz, String sql, List<Object> params)
+	public <T extends Object> T findEntityBySql(Class<T> clazz, String sql, List<Object> params)
 			throws ServiceException {
 		return commonDao.findEntityBySql(clazz, sql, params);
 	}
 
 	@Override
-	public <T extends EntityBase> Page<T> findPageBySql(Class<T> clazz, String sql, List<Object> params,
+	public <T extends Object> Page<T> findPageBySql(Class<T> clazz, String sql, List<Object> params,
 			Pageable pageable) throws ServiceException {
 		return commonDao.findPageBySql(clazz, sql, params, pageable);
 	}
