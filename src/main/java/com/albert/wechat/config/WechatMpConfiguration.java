@@ -36,8 +36,6 @@ public class WechatMpConfiguration {
   @Autowired
   private WechatMpProperties properties;
   @Autowired
-  private WeixinAdminProperties adminProperties;
-  @Autowired
   private LocationHandler locationHandler;
   @Autowired
   private MenuHandler menuHandler;

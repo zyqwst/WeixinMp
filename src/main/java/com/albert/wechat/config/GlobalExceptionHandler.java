@@ -192,7 +192,7 @@ import com.albert.wechat.utils.JsonUtils;
 	  private Object responseCustomized(HttpStatus httpStatus,String msg) {
 		  try {
 			 
-			  Enumeration enu=request.getHeaderNames();
+			  Enumeration<?> enu=request.getHeaderNames();
 		       while(enu.hasMoreElements()){
 		           String headerName=(String)enu.nextElement();
 		           String headerValue=request.getHeader(headerName);

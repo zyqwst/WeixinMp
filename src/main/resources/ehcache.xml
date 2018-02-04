@@ -4,11 +4,11 @@
     <cache name="admin_cache"  
            maxElementsInMemory="20000"  
            timeToIdleSeconds="30"
-           eternal="true">  
+           eternal="false">  
     </cache> 
     <cache name="app_cache"  
            maxElementsInMemory="20000"  
            timeToLiveSeconds="600"
-           eternal="true">  
+           eternal="false">  
     </cache>  
 </ehcache>  
