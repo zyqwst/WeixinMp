@@ -1,5 +1,15 @@
 package com.albert.wechat.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.api.WxConsts.MenuButtonType;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -7,10 +17,6 @@ import me.chanjar.weixin.mp.api.WxMpMenuService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.menu.WxMpGetSelfMenuInfoResult;
 import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import static me.chanjar.weixin.common.api.WxConsts.MenuButtonType;
 
 /**
  * <pre>
@@ -22,7 +28,7 @@ import static me.chanjar.weixin.common.api.WxConsts.MenuButtonType;
  */
 @RestController
 @RequestMapping("/wechat/menu")
-public class WxMenuController implements WxMpMenuService {
+public class WxMenuController extends WechatBaseController implements WxMpMenuService {
 
   @Autowired
   private WxMpService wxService;
@@ -48,46 +54,93 @@ public class WxMenuController implements WxMpMenuService {
   public String menuCreateSample() throws WxErrorException {
     WxMenu menu = new WxMenu();
     WxMenuButton button1 = new WxMenuButton();
-    button1.setType(MenuButtonType.CLICK);
-    button1.setName("点击事件");
-    button1.setKey("V1001_TODAY_MUSIC");
+    button1.setName("会所概况");
+    button1.setKey("V1001");
 
-//        WxMenuButton button2 = new WxMenuButton();
-//        button2.setType(MenuButtonType.MINIPROGRAM);
-//        button2.setName("小程序");
-//        button2.setAppId("wx286b93c14bbf93aa");
-//        button2.setPagePath("pages/lunar/index.html");
-//        button2.setUrl("http://mp.weixin.qq.com");
+    WxMenuButton button11 = new WxMenuButton();
+    WxMenuButton button12 = new WxMenuButton();
+    WxMenuButton button13 = new WxMenuButton();
+    WxMenuButton button14 = new WxMenuButton();
+    WxMenuButton button15 = new WxMenuButton();
+    
+    button11.setName("客房展示");
+    button11.setKey("V1001_1");
+    button11.setUrl(adminProps.getHostUrl()+"/roomshow");
+    button11.setType(MenuButtonType.VIEW);
+    button12.setName("月嫂展示");
+    button12.setKey("V1001_2");
+    button12.setUrl(adminProps.getHostUrl()+"/nannyshow");
+    button12.setType(MenuButtonType.VIEW);
+    button13.setName("专家介绍");
+    button13.setKey("V1001_3");
+    button13.setUrl(adminProps.getHostUrl()+"/expertshow");
+    button13.setType(MenuButtonType.VIEW);
+    button14.setName("护士介绍");
+    button14.setKey("V1001_4");
+    button14.setUrl(adminProps.getHostUrl()+"/nurseshow");
+    button14.setType(MenuButtonType.VIEW);
+    button15.setName("套餐介绍");
+    button15.setKey("V1001_5");
+    button15.setUrl(adminProps.getHostUrl()+"/packageshow");
+    button15.setType(MenuButtonType.VIEW);
+    
+    button1.getSubButtons().add(button11);
+    button1.getSubButtons().add(button12);
+    button1.getSubButtons().add(button13);
+    button1.getSubButtons().add(button14);
+    button1.getSubButtons().add(button15);
+    
+    
+    WxMenuButton button2 = new WxMenuButton();
+    button2.setType(MenuButtonType.CLICK);
+    button2.setName("账上商城");
+    button2.setKey("V1002");
 
     WxMenuButton button3 = new WxMenuButton();
-    button3.setName("多级菜单");
-
-    menu.getButtons().add(button1);
-//    menu.getButtons().add(button2);
-    menu.getButtons().add(button3);
-
+    button3.setName("我的会员");
+    button3.setKey("V_1003");
+   
     WxMenuButton button31 = new WxMenuButton();
-    button31.setType(MenuButtonType.PIC_SYSPHOTO);
-    button31.setName("系统拍照发图");
-    button31.setKey("V1003_SYS_PHOTO");
-
     WxMenuButton button32 = new WxMenuButton();
-    button32.setType(MenuButtonType.PIC_PHOTO_OR_ALBUM);
-    button32.setName("拍照或者相册");
-    button32.setKey("V1003_PIC_PHOTO");
-
     WxMenuButton button33 = new WxMenuButton();
-    button33.setType(MenuButtonType.PIC_WEIXIN);
-    button33.setName("相册发图");
-    button33.setKey("V1003_PIC_WEIXIN");
-
+    WxMenuButton button34 = new WxMenuButton();
+    
+    button31.setName("会员中心");
+    button31.setKey("V1003_1");
+    button31.setUrl(buildUrl(adminProps.getHostUrl()+"/wechat/portal/account/myaccount"));
+    button31.setType(MenuButtonType.VIEW);
+    
+    button32.setName("成长记录");
+    button32.setKey("V1003_2");
+    button32.setUrl(buildUrl(adminProps.getHostUrl()+"/wechat/portal/account/growthrecord"));
+    button32.setType(MenuButtonType.VIEW);
+    
+    button33.setName("健康妈妈");
+    button33.setKey("V1003_3");
+    button33.setUrl(buildUrl(adminProps.getHostUrl()+"/wechat/portal/account/healthmom"));
+    button33.setType(MenuButtonType.VIEW);
+    
+    button34.setName("会所服务");
+    button34.setKey("V1003_4");
+    button34.setUrl(adminProps.getHostUrl()+"/wechat/portal/account/clubservice");
+    button34.setType(MenuButtonType.VIEW);
+    
     button3.getSubButtons().add(button31);
     button3.getSubButtons().add(button32);
     button3.getSubButtons().add(button33);
+    button3.getSubButtons().add(button34);
 
+    
+    menu.getButtons().add(button1);
+    menu.getButtons().add(button2);
+    menu.getButtons().add(button3);
+    
     return this.wxService.getMenuService().menuCreate(menu);
   }
 
+  private String buildUrl(String url) {
+	 return wxService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_BASE, null);
+  }
   /**
    * <pre>
    * 自定义菜单创建接口

@@ -1,8 +1,10 @@
 package com.albert.wechat.reponsitory;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -43,24 +45,34 @@ public  class  CommonDaoImpl  implements CommonDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends EntityBase> T findEntity(Class<T> clazz ,String hql, List<Object> params) throws DaoException {
-		Query  query = em.createQuery(" FROM " + clazz.getName() + hql );
-		if(params!=null && params.size()>0){
-			for(int i = 1;i<=params.size();i++){
-				query.setParameter(i, params.get(i-1));
+		try {
+			Query  query = em.createQuery(" FROM " + clazz.getName() + hql );
+			if(params!=null && params.size()>0){
+				for(int i = 1;i<=params.size();i++){
+					query.setParameter(i, params.get(i-1));
+				}
 			}
+			return  (T) query.getSingleResult();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return null;
 		}
-		return  (T) query.getSingleResult();
 	}
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends EntityBase> List<T> findAll(Class<T> clazz ,String hql, List<Object> params) throws DaoException {
-		Query  query = em.createQuery(" FROM " + clazz.getName() + hql );
-		if(params!=null && params.size()>0){
-			for(int i = 1;i<=params.size();i++){
-				query.setParameter(i, params.get(i-1));
+		try {
+			Query  query = em.createQuery(" FROM " + clazz.getName() + hql );
+			if(params!=null && params.size()>0){
+				for(int i = 1;i<=params.size();i++){
+					query.setParameter(i, params.get(i-1));
+				}
 			}
-		}
-		return  (List<T>) query.getResultList();  
+			return  (List<T>) query.getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return Collections.emptyList();
+		}  
 	}
 	@Override
 	public <T extends EntityBase> void delete(T t) throws DaoException {

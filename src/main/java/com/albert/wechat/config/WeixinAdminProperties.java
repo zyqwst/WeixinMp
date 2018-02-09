@@ -12,7 +12,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "wechat.admin")
 public class WeixinAdminProperties {
+	/**后台加密盐*/
 	private String secretKey;
+	/**服务器域名*/
+	private String hostUrl;
 
 	public String getSecretKey() {
 		return secretKey;
@@ -25,5 +28,13 @@ public class WeixinAdminProperties {
 	public String toString() {
 	  return ToStringBuilder.reflectionToString(this,
 	      ToStringStyle.MULTI_LINE_STYLE);
+	}
+
+	public String getHostUrl() {
+		return hostUrl;
+	}
+
+	public void setHostUrl(String hostUrl) {
+		this.hostUrl = hostUrl;
 	}
 }

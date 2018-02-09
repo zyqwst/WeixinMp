@@ -3,6 +3,8 @@
  */
 package com.albert.wechat.controller.admin;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.albert.wechat.domain.Member;
 import com.albert.wechat.domain.RestEntity;
 import com.albert.wechat.exceptions.ServiceException;
+import com.albert.wechat.utils.JsonUtils;
 import com.albert.wechat.utils.Value;
 
 /** 
@@ -36,16 +38,13 @@ public class UserController extends AdminBaseController{
 	}
 	@PostMapping
 	@ResponseBody
-	public RestEntity query(Long id,String name) {
-		
-		return RestEntity.success();
-	}
-	@PostMapping("memberAuto")
-	@ResponseBody
-	public RestEntity memberAuto(@RequestBody Member member) {
-		if(StringUtils.isBlank("member.getName()")) throw new ServiceException("参数为空");
+	public RestEntity query(@RequestBody String params) {
+		System.out.println(params);
+		Map<String,String> map = JsonUtils.fromJson(params);
+		System.out.println(map);
+		if(StringUtils.isBlank(map.get("membername"))) throw new ServiceException("参数为空");
 		Pageable pageable = new PageRequest(0, 10, new Sort(Sort.Direction.ASC, "name"));
-		Page<String> page = commonService.findPageBySql(String.class, "select name from t_member where name like ? ", new Value().add("%"+member.getName()+"%").getParams(), pageable);
+		Page<String> page = commonService.findPageBySql(String.class, "select name from t_member where name like ? ", new Value().add("%"+map.get("membername")+"%").getParams(), pageable);
 		System.out.println(page.getContent().size());
 		return RestEntity.success(page);
 	}

@@ -1,16 +1,16 @@
 package com.albert.wechat.handler;
 
-import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
-import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import java.util.Map;
+
 import org.springframework.stereotype.Component;
 
 import com.albert.wechat.builder.TextBuilder;
 
-import java.util.Map;
-
-import static me.chanjar.weixin.common.api.WxConsts.XmlMsgType;
+import me.chanjar.weixin.common.api.WxConsts.XmlMsgType;
+import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 
 /**
  * @author Binary Wang(https://github.com/binarywang)

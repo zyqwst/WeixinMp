@@ -85,17 +85,9 @@
                         <!--Grid column-->
                         <div class="col-lg-3 col-md-6">
 
-                            <form class="form-inline mt-2 ml-2">
-                               
-                               	<div class="md-form">
-								    <input type="search" id="form-autocomplete" class="form-control mdb-autocomplete mt-2 py-0">
-								    <button class="mdb-autocomplete-clear fa fa-close">
-								        
-								    </button>
-								</div>
-                               	
-                               	
-                                <button class="btn btn-sm btn-info ml-2 px-2">
+                            <form class="form-inline  mt-2 ml-2" id="query-form">
+								<input class="form-control my-0 py-0" id="search-name" name="membername" type="text" placeholder="姓名" style="max-width: 150px;">
+                                <button class="btn btn-sm btn-info ml-2 px-2" type="button" onclick="query()">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
@@ -166,30 +158,6 @@
                                         <th scope="row">
                                             <input type="checkbox" id="checkbox1">
                                             <label for="checkbox1" class="label-table"></label>
-                                        </th>
-                                        <td>Lorem Ipsum</td>
-                                        <td>Lorem Ipsum</td>
-                                        <td>Lorem Ipsum</td>
-                                        <td>Lorem Ipsum</td>
-                                        <td>Lorem Ipsum</td>
-                                        <td>Lorem Ipsum</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" id="checkbox2">
-                                            <label for="checkbox2" class="label-table"></label>
-                                        </th>
-                                        <td>Lorem Ipsum</td>
-                                        <td>Lorem Ipsum</td>
-                                        <td>Lorem Ipsum</td>
-                                        <td>Lorem Ipsum</td>
-                                        <td>Lorem Ipsum</td>
-                                        <td>Lorem Ipsum</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" id="checkbox3">
-                                            <label for="checkbox3" class="label-table"></label>
                                         </th>
                                         <td>Lorem Ipsum</td>
                                         <td>Lorem Ipsum</td>
@@ -285,7 +253,7 @@
     <!--Main layout-->
     
    <th:block  layout:fragment="customiz_script">
-    <!-- Initializations -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script>
     		$(function(){
 	        // SideNav Initialization
@@ -300,10 +268,10 @@
 	        // Tooltip Initialization
 	        $('[data-toggle="tooltip"]').tooltip();
     			
-		    $('#form-autocomplete').keydown(_.debounce(show,800));
+		    //$('#search-name').keydown(_.debounce(show,800));
     		})
     		function show(){
-    			var item = $('#form-autocomplete');
+    			var item = $('#search-name');
     			if(item.val()=='') return;
     			axios.post('/admin/user/memberAuto', {
         	        name: item.val()
@@ -312,9 +280,23 @@
         	  	  	console.log(response.data.object.content);
         	  	  	if(response.data.status==1 && response.data.object.content.length>0){
         	  	  		var arr = response.data.object.content;
-        	  	  		item.mdb_autocomplete({
-	        	  	            data: arr
-	        	  	    });
+        	  	  	}else if(response.data.status==-1){
+        	          toastr.error(response.data.msg||"初始化错误");
+        	      }
+        	    })
+        	    .catch(function (error) {
+        	    	console.log(error);
+        	     // toastr.error(error.response.data.msg||"初始化错误");
+        	    })
+    		}
+    		function query(){
+    			axios.post('/admin/user', {
+        	        data:$("#query-form").serialize()
+        	    })
+        	    .then(function (response) {
+        	  	  	console.log(response.data.object.content);
+        	  	  	if(response.data.status==1 && response.data.object.content.length>0){
+        	  	  		var arr = response.data.object.content;
         	  	  	}else if(response.data.status==-1){
         	          toastr.error(response.data.msg||"初始化错误");
         	      }

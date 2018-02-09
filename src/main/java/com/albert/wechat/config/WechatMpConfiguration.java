@@ -1,10 +1,5 @@
 package com.albert.wechat.config;
 
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpMessageRouter;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.constant.WxMpEventConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -12,9 +7,25 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.albert.wechat.handler.*;
+import com.albert.wechat.handler.AbstractHandler;
+import com.albert.wechat.handler.KfSessionHandler;
+import com.albert.wechat.handler.LocationHandler;
+import com.albert.wechat.handler.LogHandler;
+import com.albert.wechat.handler.MenuHandler;
+import com.albert.wechat.handler.MsgHandler;
+import com.albert.wechat.handler.NullHandler;
+import com.albert.wechat.handler.StoreCheckNotifyHandler;
+import com.albert.wechat.handler.SubscribeHandler;
+import com.albert.wechat.handler.UnsubscribeHandler;
 
-import static me.chanjar.weixin.common.api.WxConsts.*;
+import me.chanjar.weixin.common.api.WxConsts.EventType;
+import me.chanjar.weixin.common.api.WxConsts.MenuButtonType;
+import me.chanjar.weixin.common.api.WxConsts.XmlMsgType;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpMessageRouter;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.constant.WxMpEventConstants;
 
 /**
  * wechat mp configuration
