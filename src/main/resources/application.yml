@@ -1,5 +1,5 @@
 server:  
-  port: 8080 
+  port: 9000 
 
 spring.thymeleaf:
   cache: false
@@ -20,7 +20,7 @@ wechat:
     aesKey: PdFZZgxL2bf1eZem6hlZRyjAlfGt7AY5PLZV8lNyKST
   admin:
     secret-key: 3j3J
-    host-url: http://www.sviip.com
+    host-url: http://www.hz8866.cn
    
 spring.datasource: 
   url: jdbc:mysql://122.112.197.187:23306/confinement_wechat
